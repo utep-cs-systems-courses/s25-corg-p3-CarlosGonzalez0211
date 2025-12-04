@@ -14,12 +14,13 @@ buzzer.elf: ${COMMON_OBJECTS} buzzer.o buzzerMain.o ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: buzzer.elf
-	msp430loader.sh  $^
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1  $^
 
 clean: $^
 	rm -f *.o *.elf
 
 buzzer.c: buzzer.h
 buzzerMain.c: buzzer.h
+
 
 

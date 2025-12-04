@@ -15,8 +15,9 @@ button.elf: ${COMMON_OBJECTS} ../lib/libTimer.a
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 load: button.elf
-	msp430loader.sh $^
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 $^
 
 clean:
 	rm -f *.o *.elf
+
 

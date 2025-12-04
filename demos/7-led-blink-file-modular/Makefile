@@ -15,7 +15,7 @@ blink.elf: ${COMMON_OBJECTS} blinkMain.o stateMachines.o led.o wdInterruptHandle
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 load: blink.elf
-	msp430loader.sh blink.elf
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 blink.elf
 
 clean:
 	rm -f *.o *.elf
@@ -25,3 +25,4 @@ led.o: led.c led.h
 wdInterruptHandler.o: stateMachines.h
 
 stateMachines.o: led.h stateMachines.h
+

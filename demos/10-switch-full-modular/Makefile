@@ -15,8 +15,9 @@ button.elf: ${COMMON_OBJECTS} p1_interrupt_handler.o led.o switches.o buttonMain
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^
 
 load: button.elf
-	msp430loader.sh button.elf
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 button.elf
 
 clean:
 	rm -f *.o *.elf
+
 

@@ -1,4 +1,5 @@
 #include "toy.h"
+#include <stdlib.h>
 volatile uint8_t state = IDLE;
 //Initialize
 void init_hardware(void)
@@ -22,7 +23,7 @@ void init_hardware(void)
     TA0CCR0 = 1000;               // PWM period
     TA0CCTL1 = OUTMOD_7;          // Reset/set mode
     TA0CCR1 = 200;                // Initial brightness (dim)
-    TA0CTL = TASSEL__SMCLK | MC__UP | TACLR;
+    TA0CTL = TASSEL_2 | MC_1 | TACLR;  // SMCLK source, up mode, clear
 
     // Timer1_A for speaker PWM (P2.6, optional — connect speaker to P2.6)
     P2DIR |= BIT6;
@@ -30,7 +31,7 @@ void init_hardware(void)
     TA1CCR0 = 0;   // Off by default
     TA1CCTL1 = OUTMOD_7;
     TA1CCR1 = 0;
-    TA1CTL = TASSEL__SMCLK | MC__UP | TACLR;
+    TA1CTL = TASSEL_2 | MC_1 | TACLR;  // SMCLK source, up mode, clear
 }
 
 //LED and Sound Functions
@@ -79,7 +80,16 @@ void play_tone(unsigned int freq, unsigned int duration_ms)
     unsigned int period = 1000000 / freq;   
     TA1CCR0 = period;
     TA1CCR1 = period / 2;
-    __delay_cycles(duration_ms * 1000);
+    
+    // Delay loop - delay for approximately duration_ms milliseconds
+    // At ~1MHz CPU, 1000 cycles ≈ 1ms
+    volatile unsigned int i, j;
+    for (i = 0; i < duration_ms; i++) {
+        for (j = 0; j < 1000; j++) {
+            __delay_cycles(100);  // Constant delay
+        }
+    }
+    
     TA1CCR0 = 0;   // stop tone
     TA1CCR1 = 0;
 }
@@ -124,3 +134,4 @@ __interrupt void Port_2(void)
     }
     P2IFG = 0; // clear flags
 }
+

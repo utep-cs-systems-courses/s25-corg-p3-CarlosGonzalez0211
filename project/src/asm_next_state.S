@@ -9,3 +9,4 @@ asm_next_state:
 done:
     mov.b   r14, &state      ; store back
     ret
+

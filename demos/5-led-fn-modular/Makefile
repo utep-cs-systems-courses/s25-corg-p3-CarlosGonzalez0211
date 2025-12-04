@@ -15,7 +15,7 @@ led.elf: ${COMMON_OBJECTS}
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ ../lib/libTimer.a
 
 load: led.elf
-	msp430loader.sh $^
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 $^
 
 clean:
 	rm -f *.o *.elf
@@ -23,4 +23,5 @@ clean:
 main.o: led.h
 
 wdInterruptHandler.o:  led.h
+
 

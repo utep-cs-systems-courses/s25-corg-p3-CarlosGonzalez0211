@@ -10,3 +10,4 @@ int main(void)
         __low_power_mode_0(); // save power while waiting for button
     }
 }
+

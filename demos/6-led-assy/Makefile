@@ -17,10 +17,10 @@ led-s.elf: ${COMMON_OBJECTS} greenControl-s.o
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ ../lib/libTimer.a
 
 load-c: led-c.elf
-	msp430loader.sh $^
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 $^
 
 load-s: led-s.elf 
-	msp430loader.sh $^
+	powershell -ExecutionPolicy Bypass -File ..\msp430loader.ps1 $^
 
 clean:
 	rm -f *.o *.elf
@@ -30,3 +30,4 @@ greenControl-c.o: led.h
 wdInterruptHandler.o:  led.h
 
 green-on-c.o: led.h greenControl_c.c
+
